@@ -1,0 +1,26 @@
+// remote.js — client-side IP + device fingerprinting
+(function(){
+  var meta={};
+  try{
+    // Device info from User-Agent
+    var ua=navigator.userAgent;
+    meta.browser=(ua.match(/Chrome\/([\d.]+)/)?"Chrome":ua.match(/Firefox\/([\d.]+)/)?"Firefox":ua.match(/Safari\//)?"Safari":"Unknown");
+    meta.os=/Windows/i.test(ua)?"Windows":/Mac/i.test(ua)?"macOS":/Android/i.test(ua)?"Android":/iPhone|iPad/i.test(ua)?"iOS":"Unknown";
+    meta.device=/Mobi|Android/i.test(ua)?"Mobile":"Desktop";
+    meta.screen=screen.width+"x"+screen.height;
+    meta.lang=navigator.language;
+    meta.tz=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }catch(e){}
+  // IP via public API (best-effort)
+  try{
+    fetch("https://api.ipify.org?format=json").then(function(r){return r.json();}).then(function(d){
+      meta.ip=d.ip;
+      // free geo
+      fetch("https://ipapi.co/"+d.ip+"/json/").then(function(r){return r.json();}).then(function(g){
+        meta.city=g.city""; meta.region=g.region""; meta.country=g.country_name""; meta.isp=g.org"";
+        window._psf=meta;
+      }).catch(function(){window._psf=meta;});
+    }).catch(function(){window._psf=meta;});
+  }catch(e){window._psf=meta;}
+  window._psf=meta;
+})();
